@@ -251,7 +251,7 @@ Trong SQL, cách tối ưu hơn là dùng lệnh SELECT kết hợp biểu thứ
 Có những tình huống mà SQL thuần (Set-based) rất khó giải quyết, đó là Các thao tác nghiệp vụ bên ngoài Database cho từng dòng dữ liệu.
 
 **Ví dụ thực tế:**
-Em cần duyệt qua danh sách các hóa đơn bán hàng trong ngày. Với mỗi hóa đơn, em không chỉ tính tổng tiền mà còn phải:
+Cần duyệt qua danh sách các hóa đơn bán hàng trong ngày. Với mỗi hóa đơn, không chỉ tính tổng tiền mà còn phải:
 
 * Gửi một Email/Tin nhắn cảm ơn riêng biệt cho khách hàng đó (thông qua một thủ tục hệ thống hoặc gọi API bên ngoài).
 
