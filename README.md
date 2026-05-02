@@ -38,7 +38,7 @@
 
 **FK (Foreign Key - Khóa ngoại):**
 * [MaLoai] trong bảng [SanPham] trỏ về [MaLoai] của bảng [LoaiSanPham].
-* [MaSanPham] trong bảng [HoaDonChiTiet] trỏ về [MaSanPham] của bảng [SanPham].
+* [MaSanPham] trong bảng [ChiTietHoaDon] trỏ về [MaSanPham] của bảng [SanPham].
 * Tác dụng: Đảm bảo tính toàn vẹn dữ liệu, không thể có sản phẩm thuộc một loại không tồn tại.
 
 **CK (Check Constraint - Ràng buộc kiểm tra):**
@@ -244,12 +244,19 @@ Trong SQL, cách tối ưu hơn là dùng lệnh SELECT kết hợp biểu thứ
 
 * Kết quả: Sau khi chạy, ở tab Messages, thời gian "CPU time" và "Elapsed time" của lệnh SELECT (không dùng cursor) gần như bằng 0ms, trong khi Cursor sẽ tốn thời gian hơn (đặc biệt nếu bảng có hàng ngàn dòng).
 
-
-
 * Kết luận: SQL Server được tối ưu hóa cho các thao tác tập hợp (Set-based). Cursor bắt hệ thống phải mở/đóng và di chuyển con trỏ qua từng dòng, gây tốn tài nguyên hơn rất nhiều. Không nên dùng Cursor nếu lệnh SELECT thông thường có thể giải quyết được.
 
 4. Bài toán "Chỉ CURSOR mới giải quyết được"
 
 Có những tình huống mà SQL thuần (Set-based) rất khó giải quyết, đó là Các thao tác nghiệp vụ bên ngoài Database cho từng dòng dữ liệu.
+
+**Ví dụ thực tế:**
+Em cần duyệt qua danh sách các hóa đơn bán hàng trong ngày. Với mỗi hóa đơn, em không chỉ tính tổng tiền mà còn phải:
+
+* Gửi một Email/Tin nhắn cảm ơn riêng biệt cho khách hàng đó (thông qua một thủ tục hệ thống hoặc gọi API bên ngoài).
+
+* Tạo một file PDF riêng cho từng hóa đơn.
+
+* Thực thi một chuỗi các câu lệnh SQL động (Dynamic SQL) khác nhau tùy thuộc vào dữ liệu của từng dòng (Ví dụ: Nếu là khách VIP thì chạy Procedure giảm giá, nếu khách vãng lai thì chạy Procedure tích điểm).
 
 **Tại sao SQL thông thường khó làm?** Vì các lệnh `SELECT`, `UPDATE` chỉ tác động lên dữ liệu trong bảng. Chúng không thể thực hiện các hành động "ngắt quãng" và "gọi lệnh thực thi bên ngoài" cho từng dòng một cách tuần tự như Cursor.
