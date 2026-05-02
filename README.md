@@ -182,7 +182,7 @@ SP Tính tổng tiền kho hàng (Sử dụng tham số OUTPUT)
 
 <img width="1920" height="1080" alt="3  Kiểm tra lại bảng SanPham để thấy SoLuongTon đã tự động trừ đi 5" src="https://github.com/user-attachments/assets/10303281-48d0-4fbe-a898-6c9cfc797724" />
 
-* 2. Thử nghiệm Trigger vòng lặp (Recursive Trigger)
+* Thử nghiệm Trigger vòng lặp (Recursive Trigger)
 
 **Yêu cầu:** Tạo 2 trigger đá qua lại giữa bảng A `(SanPham)` và bảng B `(ChiTietHoaDon)` để quan sát hiện tượng.
 
