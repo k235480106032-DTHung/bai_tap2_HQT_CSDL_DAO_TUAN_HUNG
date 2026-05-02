@@ -200,7 +200,7 @@ SP Tính tổng tiền kho hàng (Sử dụng tham số OUTPUT)
 
 3. Giải thích và Nhận xét
 
-**Hiện tượng quan sát được:** Khi chạy lệnh cập nhật ở Bước 3, hệ thống sẽ báo lỗi hoặc dừng lại sau một loạt thông báo. SQL Server có một cơ chế bảo vệ gọi là "Maximum stored procedure, function, trigger, or view nesting level exceeded (limit 32)".
+**Hiện tượng quan sát được:** Khi chạy lệnh cập nhật ở Bước 3, hệ thống sẽ báo lỗi hoặc dừng lại sau một loạt thông báo. SQL Server có một cơ chế bảo vệ gọi là `"Maximum stored procedure, function, trigger, or view nesting level exceeded (limit 32)"`.
 
 **Giải thích thông báo:**
 
@@ -219,3 +219,37 @@ Nhận xét cuối cùng:
 2.	Về kỹ thuật: SQL Server chỉ cho phép lồng nhau tối đa 32 cấp. Nếu vượt quá, nó sẽ tự ngắt để bảo vệ Database không bị sụp đổ.
 
 3.	Lời khuyên: Khi viết Trigger, chỉ nên viết theo một chiều (từ bảng nghiệp vụ sang bảng dữ liệu tổng hợp) và phải kiểm soát chặt chẽ điều kiện cập nhật để tránh gây ra lỗi vòng lặp.
+
+### Phần 5: Cursor và Duyệt dữ liệu
+
+1. Sử dụng CURSOR để duyệt và xử lý từng bản ghi
+
+**Bài toán:** Duyệt qua danh sách sản phẩm trong kho. Với mỗi sản phẩm, dựa vào số lượng tồn để in ra một thông báo cụ thể (Nhãn dán trạng thái) để nhân viên kho dễ dàng theo dõi.
+
+<img width="1920" height="1080" alt="1  Sử dụng CURSOR để duyệt và xử lý từng bản ghi" src="https://github.com/user-attachments/assets/c936ada8-ce76-4668-a049-5e7999cf3a5e" />
+
+2. Giải quyết bài toán không dùng CURSOR (Set-based)
+
+Trong SQL, cách tối ưu hơn là dùng lệnh SELECT kết hợp biểu thức CASE.
+
+<img width="1920" height="1080" alt="2  Giải quyết bài toán không dùng CURSOR (Set-based)" src="https://github.com/user-attachments/assets/0a7fa779-9d73-47b2-8216-0790725ac7f0" />
+
+3. So sánh tốc độ và Minh chứng
+
+**Cách đo thời gian:** bật chế độ đo thời gian bằng lệnh sau trước khi chạy cả 2 đoạn code trên:
+
+<img width="1920" height="1080" alt="3  So Sánh Tốc Độ" src="https://github.com/user-attachments/assets/d99aa29e-ae40-4a2d-957d-9e3dea67a9fb" />
+
+**Nhận xét:**
+
+* Kết quả: Sau khi chạy, ở tab Messages, thời gian "CPU time" và "Elapsed time" của lệnh SELECT (không dùng cursor) gần như bằng 0ms, trong khi Cursor sẽ tốn thời gian hơn (đặc biệt nếu bảng có hàng ngàn dòng).
+
+
+
+* Kết luận: SQL Server được tối ưu hóa cho các thao tác tập hợp (Set-based). Cursor bắt hệ thống phải mở/đóng và di chuyển con trỏ qua từng dòng, gây tốn tài nguyên hơn rất nhiều. Không nên dùng Cursor nếu lệnh SELECT thông thường có thể giải quyết được.
+
+4. Bài toán "Chỉ CURSOR mới giải quyết được"
+
+Có những tình huống mà SQL thuần (Set-based) rất khó giải quyết, đó là Các thao tác nghiệp vụ bên ngoài Database cho từng dòng dữ liệu.
+
+**Tại sao SQL thông thường khó làm?** Vì các lệnh `SELECT`, `UPDATE` chỉ tác động lên dữ liệu trong bảng. Chúng không thể thực hiện các hành động "ngắt quãng" và "gọi lệnh thực thi bên ngoài" cho từng dòng một cách tuần tự như Cursor.
