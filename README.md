@@ -255,8 +255,6 @@ Cần duyệt qua danh sách các hóa đơn bán hàng trong ngày. Với mỗi
 
 * Gửi một Email/Tin nhắn cảm ơn riêng biệt cho khách hàng đó (thông qua một thủ tục hệ thống hoặc gọi API bên ngoài).
 
-* Tạo một file PDF riêng cho từng hóa đơn.
-
 * Thực thi một chuỗi các câu lệnh SQL động (Dynamic SQL) khác nhau tùy thuộc vào dữ liệu của từng dòng (Ví dụ: Nếu là khách VIP thì chạy Procedure giảm giá, nếu khách vãng lai thì chạy Procedure tích điểm).
 
 **Tại sao SQL thông thường khó làm?** Vì các lệnh `SELECT`, `UPDATE` chỉ tác động lên dữ liệu trong bảng. Chúng không thể thực hiện các hành động "ngắt quãng" và "gọi lệnh thực thi bên ngoài" cho từng dòng một cách tuần tự như Cursor.
