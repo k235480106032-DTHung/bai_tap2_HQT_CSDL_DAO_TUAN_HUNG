@@ -214,11 +214,11 @@ SP Tính tổng tiền kho hàng (Sử dụng tham số OUTPUT)
 
 Nhận xét cuối cùng:
 
-1.	Về logic: Việc thiết kế trigger cập nhật chéo nhau như trên là một lỗi nghiêm trọng trong thiết kế CSDL (Circular Dependency). Nó gây tốn tài nguyên hệ thống và làm treo các giao dịch.
+*1. Về logic:* Việc thiết kế trigger cập nhật chéo nhau như trên là một lỗi nghiêm trọng trong thiết kế CSDL (Circular Dependency). Nó gây tốn tài nguyên hệ thống và làm treo các giao dịch.
   
-2.	Về kỹ thuật: SQL Server chỉ cho phép lồng nhau tối đa 32 cấp. Nếu vượt quá, nó sẽ tự ngắt để bảo vệ Database không bị sụp đổ.
+*2. Về kỹ thuật:* SQL Server chỉ cho phép lồng nhau tối đa 32 cấp. Nếu vượt quá, nó sẽ tự ngắt để bảo vệ Database không bị sụp đổ.
 
-3.	Lời khuyên: Khi viết Trigger, chỉ nên viết theo một chiều (từ bảng nghiệp vụ sang bảng dữ liệu tổng hợp) và phải kiểm soát chặt chẽ điều kiện cập nhật để tránh gây ra lỗi vòng lặp.
+*3. Lời khuyên:* Khi viết Trigger, chỉ nên viết theo một chiều (từ bảng nghiệp vụ sang bảng dữ liệu tổng hợp) và phải kiểm soát chặt chẽ điều kiện cập nhật để tránh gây ra lỗi vòng lặp.
 
 ### Phần 5: Cursor và Duyệt dữ liệu
 
